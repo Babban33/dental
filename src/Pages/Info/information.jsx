@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import KeyboardReact from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
-
+import NavButton from "../../components/btn";
 function InfoPage() {
     const [patientInfo, setPatientInfo] = useState({
         name: "",
@@ -113,6 +113,8 @@ function InfoPage() {
                     />
                 </div>
             )}
+
+            <NavButton destination="/opening" text="Next"/>
         </div>
     );
 }
