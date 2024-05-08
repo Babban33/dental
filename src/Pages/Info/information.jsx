@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
-function InfoPage(){
+
+function InfoPage() {
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
     const [gender, setGender] = useState("");
     const [village, setVillage] = useState("");
     const [isNameVisible, setIsNameVisible] = useState(false);
-    const [isNumVisible, setIsNumVisible] =  useState(false);
+    const [isNumVisible, setIsNumVisible] = useState(false);
     const [isVillageVisible, setIsVillageVisible] = useState(false);
     const [layoutName, setLayoutName] = useState("default");
 
@@ -24,7 +25,7 @@ function InfoPage(){
         console.log(formData);
     };
 
-    //virtual Keyboard
+    // Virtual Keyboard
     const toggleNameKeyboard = () => {
         setIsNameVisible(true);
         setIsNumVisible(false);
@@ -50,7 +51,10 @@ function InfoPage(){
 
     const onKeyPress = button => {
         console.log("Button Pressed", button);
-        if(button === "{shift}") handleShift();
+        if (button === "{shift}") handleShift();
+        else if (isNameVisible) setName(name + button);
+        else if (isNumVisible) setAge(age + button);
+        else if (isVillageVisible) setVillage(village + button);
     }
 
     return(
@@ -102,6 +106,7 @@ function InfoPage(){
                             default: ["1 2 3", "4 5 6", "7 8 9", "0 {bksp} {enter}"]
                         }}
                         theme="hg-theme-default hg-layout-numeric numeric-theme"
+                        onKeyPress={onKeyPress}
                     />
                 )}
                 <div className="mb-4 flex flex-row items-center">
@@ -140,6 +145,7 @@ function InfoPage(){
                             default: ["q w e r t y u i o p", "a s d f g h j k l {bksp}", "{shift} z x c v b n m done", "{space}"]
                         }}
                         theme="hg-theme-default hg-layout-numeric numeric-theme"
+                        onKeyPress={onKeyPress}
                     />
                 )}
                 <button type="submit" className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-full mb-2">Submit</button>
