@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 
@@ -11,6 +12,7 @@ function InfoPage() {
     const [isNumVisible, setIsNumVisible] = useState(false);
     const [isVillageVisible, setIsVillageVisible] = useState(false);
     const [layoutName, setLayoutName] = useState("default");
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,7 +23,7 @@ function InfoPage() {
             village: village
         };
         localStorage.setItem("formData", JSON.stringify(formData));
-        window.location.href = "/opening";
+        navigate("/opening");
         console.log(formData);
     };
 
