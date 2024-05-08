@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import Keyboard from "react-simple-keyboard";
+import "react-simple-keyboard/build/css/index.css";
 function InfoPage(){
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
     const [gender, setGender] = useState("");
     const [village, setVillage] = useState("");
+    const [isNameVisible, setIsNameVisible] = useState(false);
+    const [isNumVisible, setIsNumVisible] =  useState(false);
+    const [isVillageVisible, setIsVillageVisible] = useState(false);
+    const [layoutName, setLayoutName] = useState("default");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -17,6 +23,35 @@ function InfoPage(){
         window.location.href = "/opening";
         console.log(formData);
     };
+
+    //virtual Keyboard
+    const toggleNameKeyboard = () => {
+        setIsNameVisible(true);
+        setIsNumVisible(false);
+        setIsVillageVisible(false);
+    };
+    
+    const toggleAgeKeyboard = () => {
+        setIsNumVisible(true);
+        setIsNameVisible(false);
+        setIsVillageVisible(false);
+    };
+    
+    const toggleVillage = () => {
+        setIsVillageVisible(true);
+        setIsNumVisible(false);
+        setIsNameVisible(false);
+    }
+
+    const handleShift = () =>{
+        const newLayoutName = layoutName === "default" ? "shift" : "default";
+        setLayoutName(newLayoutName);
+    }
+
+    const onKeyPress = button => {
+        console.log("Button Pressed", button);
+        if(button === "{shift}") handleShift();
+    }
 
     return(
         <div className="text-black">
@@ -32,9 +67,21 @@ function InfoPage(){
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Enter your Name"
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
+                        onFocus={toggleNameKeyboard}
                         required
                     />
                 </div>
+                {isNameVisible && (
+                    <Keyboard
+                        layout={{
+                            default: ["q w e r t y u i o p", "a s d f g h j k l {bksp}", "{shift} z x c v b n m next", "{space}"],
+                            shift: ["Q W E R T Y U I O P", "A S D F G H J K L {bksp}", "{shift} Z X C V B N M Next", "{space}"],
+                        }}
+                        theme="hg-theme-default hg-layout-numeric numeric-theme"
+                        layoutName={layoutName}
+                        onKeyPress={onKeyPress}
+                    />
+                )}
                 <div className="mb-4 flex flex-row items-center">
                     <label htmlFor="age" className="block text-gray-700 text-sm font-bold mr-2">Age:</label>
                     <input
@@ -46,8 +93,17 @@ function InfoPage(){
                         onChange={(e) => setAge(e.target.value)}
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
                         required
+                        onFocus={toggleAgeKeyboard}
                     />
                 </div>
+                {isNumVisible && (
+                    <Keyboard
+                        layout={{
+                            default: ["1 2 3", "4 5 6", "7 8 9", "0 {bksp} {enter}"]
+                        }}
+                        theme="hg-theme-default hg-layout-numeric numeric-theme"
+                    />
+                )}
                 <div className="mb-4 flex flex-row items-center">
                     <label htmlFor="gender" className="block text-gray-700 text-sm font-bold mr-2">Gender:</label>
                     <select
@@ -75,8 +131,17 @@ function InfoPage(){
                         onChange={(e) => setVillage(e.target.value)}
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
                         required
+                        onFocus={toggleVillage}
                     />
                 </div>
+                {isVillageVisible && (
+                    <Keyboard
+                        layout={{
+                            default: ["q w e r t y u i o p", "a s d f g h j k l {bksp}", "{shift} z x c v b n m done", "{space}"]
+                        }}
+                        theme="hg-theme-default hg-layout-numeric numeric-theme"
+                    />
+                )}
                 <button type="submit" className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-full mb-2">Submit</button>
             </form>
         </div>
