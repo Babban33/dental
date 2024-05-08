@@ -13,6 +13,7 @@ function InfoPage(){
             gender: gender,
             village: village
         };
+        localStorage.setItem("formData", JSON.stringify(formData));
         window.location.href = "/opening";
         console.log(formData);
     };
