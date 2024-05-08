@@ -1,46 +1,23 @@
-import React, { useState, useRef, useEffect } from "react";
-import KeyboardReact from "react-simple-keyboard";
-import "react-simple-keyboard/build/css/index.css";
-import NavButton from "../../components/btn";
-function InfoPage() {
-    const [patientInfo, setPatientInfo] = useState({
-        name: "",
-        age: "",
-        gender: "",
-        village: ""
-    });
-
-    const [keyboard, setKeyboard] = useState(null);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setPatientInfo(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
+import React, { useState } from "react";
+function InfoPage(){
+    const [name, setName] = useState("");
+    const [age, setAge] = useState("");
+    const [gender, setGender] = useState("");
+    const [village, setVillage] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission, you can send patientInfo to backend or perform any other action
-        console.log(patientInfo);
+        const formData = {
+            name: name,
+            age: age,
+            gender: gender,
+            village: village
+        };
+        window.location.href = "/opening";
+        console.log(formData);
     };
 
-    const onKeyPress = (button) => {
-        let inputValue = button;
-
-        // Handle special cases
-        if (button === "{bksp}") {
-            inputValue = patientInfo.name.slice(0, -1); // Remove last character
-        }
-
-        setPatientInfo(prevState => ({
-            ...prevState,
-            name: inputValue // Assuming we are only focusing on the name input
-        }));
-    };
-
-    return (
+    return(
         <div className="text-black">
             <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Patient Information</h1>
             <form onSubmit={handleSubmit} className="mt-4">
@@ -50,9 +27,9 @@ function InfoPage() {
                         type="text"
                         id="name"
                         name="name"
-                        value={patientInfo.name}
-                        onChange={handleChange}
-                        onFocus={() => setKeyboard("name")}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Enter your Name"
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
                         required
                     />
@@ -63,8 +40,9 @@ function InfoPage() {
                         type="number"
                         id="age"
                         name="age"
-                        value={patientInfo.age}
-                        onChange={handleChange}
+                        placeholder="Enter your Age"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
                         required
                     />
@@ -74,8 +52,8 @@ function InfoPage() {
                     <select
                         id="gender"
                         name="gender"
-                        value={patientInfo.gender}
-                        onChange={handleChange}
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
                         required
                     >
@@ -91,30 +69,15 @@ function InfoPage() {
                         type="text"
                         id="village"
                         name="village"
-                        value={patientInfo.village}
-                        onChange={handleChange}
-                        onFocus={() => setKeyboard("village")}
+                        value={village}
+                        placeholder="Enter your Village Name"
+                        onChange={(e) => setVillage(e.target.value)}
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
                         required
                     />
                 </div>
-                <button type="submit" className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-full">Submit</button>
+                <button type="submit" className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-full mb-2">Submit</button>
             </form>
-            {keyboard && (
-                <div className="mt-4">
-                    <KeyboardReact
-                        layout={{
-                            default: ["q w e r t y u i o p", "a s d f g h j k l {bksp}", "{shift} z x c v b n m , . {shift}", "{space}"]
-                        }}
-                        theme="hg-theme-default hg-layout-numeric numeric-theme"
-                        inputName={keyboard}
-                        onChange={(input) => setPatientInfo(prevState => ({...prevState, [keyboard]: input}))}
-                        onKeyPress={onKeyPress}
-                    />
-                </div>
-            )}
-
-            <NavButton destination="/opening" text="Next"/>
         </div>
     );
 }
