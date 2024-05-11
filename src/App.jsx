@@ -40,6 +40,7 @@ function App() {
     <BrowserRouter>
       <div className="flex flex-col min-h-screen">
         {/* <NavBar /> */}
+        <NavBar />
         <main className="flex flex-col justify-center items-center flex-grow py-20">
           <Routes>
             <Route path="/" element={<HomePage/>}/>
