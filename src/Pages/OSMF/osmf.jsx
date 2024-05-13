@@ -210,6 +210,42 @@ function Osmf({ onPredictionChange }) {
         }
     };
 
+    const captureAgain = async () => {
+        setCapturedPhoto(null);
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { deviceId: selectedCamera } });
+            setMediaStream(stream);
+        } catch (error) {
+            console.error('Error starting streaming:', error);
+        }
+        isPhotoClicked(true);
+    };
+
+    const checkOsmf = async () => {
+        if (capturedPhoto) {
+            try {
+                const formData = new FormData();
+                formData.append('photo', capturedPhoto);
+
+                const response = await fetch("http://127.0.0.1:8000/osmf", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    onPredictionChange(data.prediction); // Update the prediction in the parent component
+                } else {
+                    console.error('Failed to get prediction.');
+                }
+            } catch (error) {
+                console.error('Error checking OSMF:', error);
+            }
+        } else {
+            console.error('No photo to check.');
+        }
+    };
+
     return (
         <div>
             <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Mouth Opening</h1>
@@ -251,7 +287,7 @@ function Osmf({ onPredictionChange }) {
                                 videoRef.srcObject = mediaStream;
                             }
                         }}
-                        className="w-full"
+                        className="w-full rounded-3xl shadow-2xl border border-gray-300"
                     />
                 </div>
             )}
@@ -259,11 +295,11 @@ function Osmf({ onPredictionChange }) {
             {/* Display captured photo */}
             {capturedPhoto && (
                 <div className="mt-4 flex space-x-4 items-center">
-                    <img src={capturedPhoto} alt="Captured" className="w-full" />
-                    <div className="flex flex-col space-y-2">
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Capture Again</button>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crop Image</button>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Check OSMF</button>
+                    <img src={capturedPhoto} alt="Captured" className="w-full rounded-3xl shadow-2xl border border-gray-300" />
+                    <div className="flex flex-col space-y-2 items-start">
+                        <button onClick={captureAgain} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Capture Again</button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Crop Image</button>
+                        <button onClick={checkOsmf} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Check OSMF</button>
                     </div>
                 </div>
             )}
