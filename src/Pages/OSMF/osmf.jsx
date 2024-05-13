@@ -142,14 +142,16 @@
 // }
 // export default Osmf;
 
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import NavButton from "../../components/btn";
 
-function Osmf({onPredictionChange}){
+function Osmf({ onPredictionChange }) {
     const [cameras, setCameras] = useState([]);
     const [selectedCamera, setSelectedCamera] = useState("");
     const [streaming, setStreaming] = useState(false);
     const [mediaStream, setMediaStream] = useState(null);
+    const [capturedPhoto, setCapturedPhoto] = useState(null);
+    const [photoClicked, isPhotoClicked] = useState(true);
 
     useEffect(() => {
         const getAvailableCameras = async () => {
@@ -191,9 +193,22 @@ function Osmf({onPredictionChange}){
         }
     };
 
-    const capturePhoto =() =>{
-        toggleStreaming();
-    }
+    const capturePhoto = async () => {
+        try {
+            const track = mediaStream.getVideoTracks()[0];
+            const imageCapture = new ImageCapture(track);
+            const photoBlob = await imageCapture.takePhoto();
+            const photoUrl = URL.createObjectURL(photoBlob);
+            setCapturedPhoto(photoUrl);
+            isPhotoClicked(false);
+        } catch (error) {
+            console.error('Error capturing photo:', error);
+        }
+        if (streaming) {
+            mediaStream.getTracks().forEach(track => track.stop());
+            setMediaStream(null);
+        }
+    };
 
     return (
         <div>
@@ -213,10 +228,12 @@ function Osmf({onPredictionChange}){
                     ))}
                 </select>
                 {streaming ? (
-                    <button onClick={capturePhoto} className="ml-2 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Capture Photo
-                    </button>
-                ):(
+                    photoClicked && (
+                        <button onClick={capturePhoto} className="ml-2 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Capture Photo
+                        </button>
+                    )
+                ) : (
                     <button onClick={toggleStreaming} className="ml-2 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Start Streaming
                     </button>
@@ -239,9 +256,21 @@ function Osmf({onPredictionChange}){
                 </div>
             )}
 
+            {/* Display captured photo */}
+            {capturedPhoto && (
+                <div className="mt-4 flex space-x-4 items-center">
+                    <img src={capturedPhoto} alt="Captured" className="w-full" />
+                    <div className="flex flex-col space-y-2">
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Capture Again</button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Crop Image</button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Check OSMF</button>
+                    </div>
+                </div>
+            )}
+
             <div className="justify-center gap-4 mt-4 grid grid-cols-2">
-                <NavButton destination="/" text="Previous"/>
-                <NavButton destination="/gingivitis" text="Next"/>
+                <NavButton destination="/" text="Previous" />
+                <NavButton destination="/gingivitis" text="Next" />
             </div>
         </div>
     );
