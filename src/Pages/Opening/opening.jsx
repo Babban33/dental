@@ -118,7 +118,7 @@ function MouthOpening() {
                 <select
                     value={selectedCamera}
                     onChange={handleCameraChange}
-                    className="bg-white border border-gray-700 rounded px-3 py-2 mt-2"
+                    className="bg-white border border-gray-700 rounded px-3 py-2 mt-2 text-gray-800"
                 >
                     {cameras.map(camera => (
                         <option key={camera.deviceId} value={camera.deviceId}>
