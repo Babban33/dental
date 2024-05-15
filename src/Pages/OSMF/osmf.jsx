@@ -14,6 +14,11 @@ function Osmf({ onPredictionChange }) {
     const [confidence, setConfidence] = useState(null);
 
     useEffect(() => {
+        console.log("Prediction state:", predictedClass);
+        onPredictionChange(predictedClass)
+    }, [predictedClass, onPredictionChange]);
+
+    useEffect(() => {
         const getAvailableCameras = async () => {
             try {
                 const devices = await navigator.mediaDevices.enumerateDevices();
@@ -178,6 +183,7 @@ function Osmf({ onPredictionChange }) {
                         alt="Generated Image"
                         className="max-w-full rounded-3xl"
                     />
+                    <span>{predictedClass}: {confidence}</span>
                 </div>
             )}
 
