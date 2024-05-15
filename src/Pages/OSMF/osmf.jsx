@@ -8,8 +8,8 @@ function Osmf({ onPredictionChange }) {
     const [mediaStream, setMediaStream] = useState(null);
     const [capturedPhoto, setCapturedPhoto] = useState(null);
     const [photoClicked, isPhotoClicked] = useState(true);
-    const [clickedBlob, setClickedBlob] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [generatedImage, setGeneratedImage] = useState(null);
 
     useEffect(() => {
         const getAvailableCameras = async () => {
@@ -58,7 +58,6 @@ function Osmf({ onPredictionChange }) {
             const photoBlob = await imageCapture.takePhoto();
             const photoUrl = URL.createObjectURL(photoBlob);
             setCapturedPhoto(photoUrl);
-            setClickedBlob(photoBlob);
             isPhotoClicked(false);
 
             const pngFIle = new File([photoBlob], "captured_photo.png", {type: "image/png"});
@@ -84,31 +83,6 @@ function Osmf({ onPredictionChange }) {
         isPhotoClicked(true);
     };
 
-    // const checkOsmf = async () => {
-    //     if (capturedPhoto) {
-    //         try {
-    //             const formData = new FormData();
-    //             formData.append('file', capturedPhoto);
-
-    //             const response = await fetch("http://127.0.0.1:8000/osmf", {
-    //                 method: "POST",
-    //                 body: formData,
-    //             });
-
-    //             if (response.ok) {
-    //                 const data = await response.json();
-    //                 onPredictionChange(data.prediction); // Update the prediction in the parent component
-    //             } else {
-    //                 console.error('Failed to get prediction.');
-    //             }
-    //         } catch (error) {
-    //             console.error('Error checking OSMF:', error);
-    //         }
-    //     } else {
-    //         console.error('No photo to check.');
-    //     }
-    // };
-
     const checkOsmf = async () => {
         if (selectedImage){
             console.log(selectedImage);
@@ -128,6 +102,7 @@ function Osmf({ onPredictionChange }) {
 
                 const data = await response.json();
                 console.log(data);
+                setGeneratedImage(data.generatedImage);
             } catch (error){
                 console.error('Error from Server:', error);
             }
@@ -189,6 +164,16 @@ function Osmf({ onPredictionChange }) {
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Crop Image</button>
                         <button onClick={checkOsmf} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Check OSMF</button>
                     </div>
+                </div>
+            )}
+
+            {generatedImage && (
+                <div className="basis-1/2 mt-6">
+                    <img
+                        src={`data:image/jpeg;base64,${generatedImage}`}
+                        alt="Generated Image"
+                        className="max-w-full rounded-3xl"
+                    />
                 </div>
             )}
 
