@@ -188,7 +188,7 @@ function Osmf({ onPredictionChange }) {
             )}
 
             <div className="justify-center gap-4 mt-4 grid grid-cols-2">
-                <NavButton destination="/" text="Previous" />
+                <NavButton destination="/selection" text="Previous" />
                 <NavButton destination="/gingivitis" text="Next" />
             </div>
         </div>
