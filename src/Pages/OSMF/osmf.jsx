@@ -10,6 +10,8 @@ function Osmf({ onPredictionChange }) {
     const [photoClicked, isPhotoClicked] = useState(true);
     const [selectedImage, setSelectedImage] = useState(null);
     const [generatedImage, setGeneratedImage] = useState(null);
+    const [predictedClass, setPredictedClass] = useState(null);
+    const [confidence, setConfidence] = useState(null);
 
     useEffect(() => {
         const getAvailableCameras = async () => {
@@ -103,6 +105,8 @@ function Osmf({ onPredictionChange }) {
                 const data = await response.json();
                 console.log(data);
                 setGeneratedImage(data.generatedImage);
+                setPredictedClass(data.class);
+                setConfidence(data.conf);
             } catch (error){
                 console.error('Error from Server:', error);
             }
@@ -111,7 +115,7 @@ function Osmf({ onPredictionChange }) {
 
     return (
         <div>
-            <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Mouth Opening</h1>
+            <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">OSMF Prediction</h1>
 
             <div className="mt-2 flex items-center">
                 <h2 className="text-2xl font-medium text-gray-700 mr-2">Select Camera:</h2>
