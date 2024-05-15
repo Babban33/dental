@@ -8,6 +8,8 @@ function Osmf({ onPredictionChange }) {
     const [mediaStream, setMediaStream] = useState(null);
     const [capturedPhoto, setCapturedPhoto] = useState(null);
     const [photoClicked, isPhotoClicked] = useState(true);
+    const [clickedBlob, setClickedBlob] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     useEffect(() => {
         const getAvailableCameras = async () => {
@@ -56,7 +58,12 @@ function Osmf({ onPredictionChange }) {
             const photoBlob = await imageCapture.takePhoto();
             const photoUrl = URL.createObjectURL(photoBlob);
             setCapturedPhoto(photoUrl);
+            setClickedBlob(photoBlob);
             isPhotoClicked(false);
+
+            const pngFIle = new File([photoBlob], "captured_photo.png", {type: "image/png"});
+            console.log(pngFIle);
+            setSelectedImage(pngFIle);
         } catch (error) {
             console.error('Error capturing photo:', error);
         }
@@ -77,30 +84,55 @@ function Osmf({ onPredictionChange }) {
         isPhotoClicked(true);
     };
 
+    // const checkOsmf = async () => {
+    //     if (capturedPhoto) {
+    //         try {
+    //             const formData = new FormData();
+    //             formData.append('file', capturedPhoto);
+
+    //             const response = await fetch("http://127.0.0.1:8000/osmf", {
+    //                 method: "POST",
+    //                 body: formData,
+    //             });
+
+    //             if (response.ok) {
+    //                 const data = await response.json();
+    //                 onPredictionChange(data.prediction); // Update the prediction in the parent component
+    //             } else {
+    //                 console.error('Failed to get prediction.');
+    //             }
+    //         } catch (error) {
+    //             console.error('Error checking OSMF:', error);
+    //         }
+    //     } else {
+    //         console.error('No photo to check.');
+    //     }
+    // };
+
     const checkOsmf = async () => {
-        if (capturedPhoto) {
-            try {
+        if (selectedImage){
+            console.log(selectedImage);
+            try{
                 const formData = new FormData();
-                formData.append('photo', capturedPhoto);
+                formData.append('file', selectedImage);
+                console.log(formData.get('file'));
 
                 const response = await fetch("http://127.0.0.1:8000/osmf", {
-                    method: "POST",
-                    body: formData,
+                    method: 'POST',
+                    body: formData
                 });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    onPredictionChange(data.prediction); // Update the prediction in the parent component
-                } else {
-                    console.error('Failed to get prediction.');
+                if (!response.ok){
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-            } catch (error) {
-                console.error('Error checking OSMF:', error);
+
+                const data = await response.json();
+                console.log(data);
+            } catch (error){
+                console.error('Error from Server:', error);
             }
-        } else {
-            console.error('No photo to check.');
         }
-    };
+    }
 
     return (
         <div>
