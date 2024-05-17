@@ -10,6 +10,7 @@ function MouthOpening() {
     const [photoClicked, isPhotoClicked] = useState(true);
     const [selectedImage, setSelectedImage] = useState(null);
     const [generatedImage, setGeneratedImage] = useState(null);
+    const [opening, setOpening] = useState(null);
 
     useEffect(() => {
         const getAvailableCameras = async () => {
@@ -103,6 +104,8 @@ function MouthOpening() {
                 const data = await response.json();
                 console.log(data);
                 setGeneratedImage(data.generatedImage);
+                setOpening(data.opening);
+                localStorage.setItem('opening', data.opening);
             } catch (error){
                 console.error('Error from Server:', error);
             }
@@ -168,12 +171,13 @@ function MouthOpening() {
             )}
 
             {generatedImage && (
-                <div className="basis-1/2 mt-6">
+                <div className="mt-6 flex">
                     <img
                         src={`data:image/jpeg;base64,${generatedImage}`}
                         alt="Generated Image"
                         className="max-w-full rounded-3xl"
                     />
+                    <span className="font-bold text-xl">Opening: {opening}</span>
                 </div>
             )}
 
