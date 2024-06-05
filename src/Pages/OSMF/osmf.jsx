@@ -12,6 +12,7 @@ function Osmf({ onPredictionChange }) {
     const [generatedImage, setGeneratedImage] = useState(null);
     const [predictedClass, setPredictedClass] = useState(null);
     const [confidence, setConfidence] = useState(null);
+    const [openCrop, isOpenCrop] = useState(false);
 
     useEffect(() => {
         console.log("Prediction state:", predictedClass);
@@ -118,6 +119,10 @@ function Osmf({ onPredictionChange }) {
         }
     }
 
+    const cropPhoto = () =>{
+        isOpenCrop(!openCrop);
+    }
+
     return (
         <div>
             <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">OSMF Prediction</h1>
@@ -170,8 +175,19 @@ function Osmf({ onPredictionChange }) {
                     <img src={capturedPhoto} alt="Captured" className="w-full rounded-3xl shadow-2xl border border-gray-300" />
                     <div className="flex flex-col space-y-2 items-start">
                         <button onClick={captureAgain} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Capture Again</button>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Crop Image</button>
+                        <button onClick={cropPhoto} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Crop Image</button>
                         <button onClick={checkOsmf} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Check OSMF</button>
+                    </div>
+                </div>
+            )}
+            {capturedPhoto && openCrop &&(
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                    <div className="bg-white p-4 rounded-3xl shadow-lg">
+                    <img src={capturedPhoto} alt="Captured" className="w-full rounded-3xl shadow-2xl border border-gray-300" />
+                        <div className="mt-4 flex justify-center space-x-2">
+                            <button onClick={cropPhoto} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancel</button>
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
+                        </div>
                     </div>
                 </div>
             )}
