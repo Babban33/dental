@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import NavButton from "../../components/btn";
+import AvatarEditor from "react-avatar-editor";
 
 function Osmf({ onPredictionChange }) {
     const [cameras, setCameras] = useState([]);
@@ -13,10 +14,14 @@ function Osmf({ onPredictionChange }) {
     const [predictedClass, setPredictedClass] = useState(null);
     const [confidence, setConfidence] = useState(null);
     const [openCrop, isOpenCrop] = useState(false);
+    const [scale, setScale] = useState(1.2);
+    const [height, setHeight] = useState(250);
+    const [width, setWidth] = useState(250);
+    const editorRef = useRef(null);
 
     useEffect(() => {
         console.log("Prediction state:", predictedClass);
-        onPredictionChange(predictedClass)
+        onPredictionChange(predictedClass);
     }, [predictedClass, onPredictionChange]);
 
     useEffect(() => {
@@ -65,12 +70,20 @@ function Osmf({ onPredictionChange }) {
             const imageCapture = new ImageCapture(track);
             const photoBlob = await imageCapture.takePhoto();
             const photoUrl = URL.createObjectURL(photoBlob);
+
+            // Create an image element to get the dimensions
+            const img = new Image();
+            img.onload = () => {
+                setHeight(img.height);
+                setWidth(img.width);
+            };
+            img.src = photoUrl;
+
             setCapturedPhoto(photoUrl);
             isPhotoClicked(false);
 
-            const pngFIle = new File([photoBlob], "captured_photo.png", {type: "image/png"});
-            console.log(pngFIle);
-            setSelectedImage(pngFIle);
+            const pngFile = new File([photoBlob], "captured_photo.png", { type: "image/png" });
+            setSelectedImage(pngFile);
         } catch (error) {
             console.error('Error capturing photo:', error);
         }
@@ -92,35 +105,47 @@ function Osmf({ onPredictionChange }) {
     };
 
     const checkOsmf = async () => {
-        if (selectedImage){
-            console.log(selectedImage);
-            try{
+        if (selectedImage) {
+            try {
                 const formData = new FormData();
                 formData.append('file', selectedImage);
-                console.log(formData.get('file'));
 
                 const response = await fetch("http://127.0.0.1:8000/osmf", {
                     method: 'POST',
                     body: formData
                 });
 
-                if (!response.ok){
+                if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
 
                 const data = await response.json();
-                console.log(data);
                 setGeneratedImage(data.generatedImage);
                 setPredictedClass(data.class);
                 setConfidence(data.conf);
-            } catch (error){
+            } catch (error) {
                 console.error('Error from Server:', error);
             }
         }
     }
 
-    const cropPhoto = () =>{
+    const cropPhoto = () => {
         isOpenCrop(!openCrop);
+    }
+
+    const handleSaveCrop = async () => {
+        if (editorRef.current) {
+            const canvas = editorRef.current.getImage();
+            canvas.toBlob(blob => {
+                if (blob) {
+                    const croppedUrl = URL.createObjectURL(blob);
+                    setCapturedPhoto(croppedUrl);
+                    const file = new File([blob], "cropped_photo.png", { type: "image/png" });
+                    setSelectedImage(file);
+                    isOpenCrop(false);
+                }
+            }, 'image/png');
+        }
     }
 
     return (
@@ -180,13 +205,58 @@ function Osmf({ onPredictionChange }) {
                     </div>
                 </div>
             )}
-            {capturedPhoto && openCrop &&(
+            {capturedPhoto && openCrop && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white p-4 rounded-3xl shadow-lg">
-                    <img src={capturedPhoto} alt="Captured" className="w-full rounded-3xl shadow-2xl border border-gray-300" />
-                        <div className="mt-4 flex justify-center space-x-2">
-                            <button onClick={cropPhoto} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancel</button>
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
+                    <div className="bg-white p-4 rounded-3xl shadow-lg flex flex-row">
+                        <AvatarEditor
+                            ref={editorRef}
+                            image={capturedPhoto}
+                            width={width}
+                            height={height}
+                            border={50}
+                            borderRadius={0}
+                            color={[255, 255, 255, 0.6]}
+                            scale={scale}
+                            rotate={0}
+                        />
+                        <div className="flex flex-col ml-4 items-center space-y-2 justify-center">
+                            <label htmlFor="scale" className="text-gray-700">Scale</label>
+                            <input
+                                id="scale"
+                                type="range"
+                                min="1"
+                                max="3"
+                                step="0.01"
+                                value={scale}
+                                onChange={(e) => setScale(parseFloat(e.target.value))}
+                                className="w-full"
+                            />
+                            <label htmlFor="width" className="text-gray-700 mt-2">Width</label>
+                            <input
+                                id="width"
+                                type="range"
+                                min="50"
+                                max="300"
+                                step="1"
+                                value={width}
+                                onChange={(e) => setWidth(parseInt(e.target.value))}
+                                className="w-full"
+                            />
+                            <label htmlFor="height" className="text-gray-700 mt-2">Height</label>
+                            <input
+                                id="height"
+                                type="range"
+                                min="50"
+                                max="300"
+                                step="1"
+                                value={height}
+                                onChange={(e) => setHeight(parseInt(e.target.value))}
+                                className="w-full"
+                            />
+                            <div className="mt-4 flex justify-center space-x-2">
+                                <button onClick={cropPhoto} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancel</button>
+                                <button onClick={handleSaveCrop} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
+                            </div>
                         </div>
                     </div>
                 </div>
