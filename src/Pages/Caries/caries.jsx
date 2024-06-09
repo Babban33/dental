@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import NavButton from "../../components/btn";
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+
 
 function Caries({ onPredictionChange}){
     const [cameras, setCameras] = useState([]);
@@ -12,6 +15,8 @@ function Caries({ onPredictionChange}){
     const [generatedImage, setGeneratedImage] = useState(null);
     const [predictedClass, setPredictedClass] = useState(null);
     const [confidence, setConfidence] = useState(null);
+    const [openCrop, isOpenCrop] = useState(false);
+    const [crop, setCrop] = useState(null);
 
     useEffect(() => {
         console.log("Prediction state:", predictedClass);
@@ -118,6 +123,42 @@ function Caries({ onPredictionChange}){
         }
     }
 
+    const cropPhoto = () => {
+        isOpenCrop(!openCrop);
+    };
+
+    const saveCroppedImage = () => {
+        const image = new Image();
+        image.src = capturedPhoto;
+        const canvas = document.createElement('canvas');
+        const scaleX = image.naturalWidth / image.width;
+        const scaleY = image.naturalHeight / image.height;
+        canvas.width = crop.width;
+        canvas.height = crop.height;
+        const ctx = canvas.getContext('2d');
+
+        ctx.drawImage(
+            image,
+            crop.x * scaleX,
+            crop.y * scaleY,
+            crop.width * scaleX,
+            crop.height * scaleY,
+            0,
+            0,
+            crop.width,
+            crop.height
+        );
+
+        canvas.toBlob(blob => {
+            const croppedUrl = URL.createObjectURL(blob);
+            setCapturedPhoto(croppedUrl);
+            isOpenCrop(false);
+
+            const croppedFile = new File([blob], "cropped_photo.png", { type: "image/png" });
+            setSelectedImage(croppedFile);
+        }, 'image/png');
+    };
+
     return (
         <div>
             <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Caries Prediction</h1>
@@ -170,8 +211,22 @@ function Caries({ onPredictionChange}){
                     <img src={capturedPhoto} alt="Captured" className="w-full rounded-3xl shadow-2xl border border-gray-300" />
                     <div className="flex flex-col space-y-2 items-start">
                         <button onClick={captureAgain} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Capture Again</button>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Crop Image</button>
+                        <button onClick={cropPhoto} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Crop Image</button>
                         <button onClick={checkCaries} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Check OSMF</button>
+                    </div>
+                </div>
+            )}
+
+            {capturedPhoto && openCrop && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                    <div className="bg-white p-4 rounded-3xl shadow-lg">
+                        <ReactCrop crop={crop} onChange={c => setCrop(c)}>
+                            <img src={capturedPhoto} alt="Crop" />
+                        </ReactCrop>
+                        <div className="mt-4 flex justify-end space-x-2">
+                            <button onClick={cropPhoto} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Cancel</button>
+                            <button onClick={saveCroppedImage} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Save</button>
+                        </div>
                     </div>
                 </div>
             )}
