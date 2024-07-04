@@ -10,6 +10,7 @@ function MouthOpening() {
     const [photoClicked, isPhotoClicked] = useState(true);
     const [selectedImage, setSelectedImage] = useState(null);
     const [generatedImage, setGeneratedImage] = useState(null);
+    const [length, setLength] = useState(null);
 
     useEffect(() => {
         const getAvailableCameras = async () => {
@@ -103,6 +104,7 @@ function MouthOpening() {
                 const data = await response.json();
                 console.log(data);
                 setGeneratedImage(data.generatedImage);
+                setLength(data.opening);
             } catch (error){
                 console.error('Error from Server:', error);
             }
@@ -161,19 +163,22 @@ function MouthOpening() {
                     <img src={capturedPhoto} alt="Captured" className="w-full rounded-3xl shadow-2xl border border-gray-300" />
                     <div className="flex flex-col space-y-2 items-start">
                         <button onClick={captureAgain} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Capture Again</button>
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Crop Image</button>
                         <button onClick={checkOpening} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Check Opening</button>
                     </div>
                 </div>
             )}
 
             {generatedImage && (
-                <div className="basis-1/2 mt-6">
+                <div className="mt-6 flex space-x-4">
                     <img
                         src={`data:image/jpeg;base64,${generatedImage}`}
                         alt="Generated Image"
                         className="max-w-full rounded-3xl"
                     />
+                    <div className="flex flex-col space-y-2"> 
+                    <h1 className="font-serif text-4xl text-indigo-600 leading-tight">Results</h1>
+                        <span className="text-xl font-bold">Mouth Opening: {length}</span>
+                    </div>
                 </div>
             )}
 

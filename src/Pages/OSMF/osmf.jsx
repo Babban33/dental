@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import NavButton from "../../components/btn";
-import AvatarEditor from "react-avatar-editor";
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 function Osmf({ onPredictionChange }) {
     const [cameras, setCameras] = useState([]);
@@ -14,10 +15,7 @@ function Osmf({ onPredictionChange }) {
     const [predictedClass, setPredictedClass] = useState(null);
     const [confidence, setConfidence] = useState(null);
     const [openCrop, isOpenCrop] = useState(false);
-    const [scale, setScale] = useState(1.2);
-    const [height, setHeight] = useState(250);
-    const [width, setWidth] = useState(250);
-    const editorRef = useRef(null);
+    const [crop, setCrop] = useState(null);
 
     useEffect(() => {
         console.log("Prediction state:", predictedClass);
@@ -70,19 +68,11 @@ function Osmf({ onPredictionChange }) {
             const imageCapture = new ImageCapture(track);
             const photoBlob = await imageCapture.takePhoto();
             const photoUrl = URL.createObjectURL(photoBlob);
-
-            // Create an image element to get the dimensions
-            const img = new Image();
-            img.onload = () => {
-                setHeight(img.height);
-                setWidth(img.width);
-            };
-            img.src = photoUrl;
-
             setCapturedPhoto(photoUrl);
             isPhotoClicked(false);
 
             const pngFile = new File([photoBlob], "captured_photo.png", { type: "image/png" });
+            console.log(pngFile);
             setSelectedImage(pngFile);
         } catch (error) {
             console.error('Error capturing photo:', error);
@@ -133,20 +123,37 @@ function Osmf({ onPredictionChange }) {
         isOpenCrop(!openCrop);
     }
 
-    const handleSaveCrop = async () => {
-        if (editorRef.current) {
-            const canvas = editorRef.current.getImage();
-            canvas.toBlob(blob => {
-                if (blob) {
-                    const croppedUrl = URL.createObjectURL(blob);
-                    setCapturedPhoto(croppedUrl);
-                    const file = new File([blob], "cropped_photo.png", { type: "image/png" });
-                    setSelectedImage(file);
-                    isOpenCrop(false);
-                }
-            }, 'image/png');
-        }
-    }
+    const saveCroppedImage = () => {
+        const image = new Image();
+        image.src = capturedPhoto;
+        const canvas = document.createElement('canvas');
+        const scaleX = image.naturalWidth / image.width;
+        const scaleY = image.naturalHeight / image.height;
+        canvas.width = crop.width;
+        canvas.height = crop.height;
+        const ctx = canvas.getContext('2d');
+
+        ctx.drawImage(
+            image,
+            crop.x * scaleX,
+            crop.y * scaleY,
+            crop.width * scaleX,
+            crop.height * scaleY,
+            0,
+            0,
+            crop.width,
+            crop.height
+        );
+
+        canvas.toBlob(blob => {
+            const croppedUrl = URL.createObjectURL(blob);
+            setCapturedPhoto(croppedUrl);
+            isOpenCrop(false);
+
+            const croppedFile = new File([blob], "cropped_photo.png", { type: "image/png" });
+            setSelectedImage(croppedFile);
+        }, 'image/png');
+    };
 
     return (
         <div>
@@ -205,71 +212,32 @@ function Osmf({ onPredictionChange }) {
                     </div>
                 </div>
             )}
+
             {capturedPhoto && openCrop && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                    <div className="bg-white p-4 rounded-3xl shadow-lg flex flex-row">
-                        <AvatarEditor
-                            ref={editorRef}
-                            image={capturedPhoto}
-                            width={width}
-                            height={height}
-                            border={50}
-                            borderRadius={0}
-                            color={[255, 255, 255, 0.6]}
-                            scale={scale}
-                            rotate={0}
-                        />
-                        <div className="flex flex-col ml-4 items-center space-y-2 justify-center">
-                            <label htmlFor="scale" className="text-gray-700">Scale</label>
-                            <input
-                                id="scale"
-                                type="range"
-                                min="1"
-                                max="3"
-                                step="0.01"
-                                value={scale}
-                                onChange={(e) => setScale(parseFloat(e.target.value))}
-                                className="w-full"
-                            />
-                            <label htmlFor="width" className="text-gray-700 mt-2">Width</label>
-                            <input
-                                id="width"
-                                type="range"
-                                min="50"
-                                max="300"
-                                step="1"
-                                value={width}
-                                onChange={(e) => setWidth(parseInt(e.target.value))}
-                                className="w-full"
-                            />
-                            <label htmlFor="height" className="text-gray-700 mt-2">Height</label>
-                            <input
-                                id="height"
-                                type="range"
-                                min="50"
-                                max="300"
-                                step="1"
-                                value={height}
-                                onChange={(e) => setHeight(parseInt(e.target.value))}
-                                className="w-full"
-                            />
-                            <div className="mt-4 flex justify-center space-x-2">
-                                <button onClick={cropPhoto} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Cancel</button>
-                                <button onClick={handleSaveCrop} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Save</button>
-                            </div>
+                    <div className="bg-white p-4 rounded-3xl shadow-lg">
+                        <ReactCrop crop={crop} onChange={c => setCrop(c)}>
+                            <img src={capturedPhoto} alt="Crop" />
+                        </ReactCrop>
+                        <div className="mt-4 flex justify-end space-x-2">
+                            <button onClick={cropPhoto} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Cancel</button>
+                            <button onClick={saveCroppedImage} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Save</button>
                         </div>
                     </div>
                 </div>
             )}
 
             {generatedImage && (
-                <div className="basis-1/2 mt-6">
+                <div className="mt-6 flex space-x-4">
                     <img
                         src={`data:image/jpeg;base64,${generatedImage}`}
                         alt="Generated Image"
                         className="max-w-full rounded-3xl"
                     />
-                    <span>{predictedClass}: {confidence}</span>
+                    <div className="flex flex-col space-y-2">
+                        <h1 className="font-serif text-3xl text-indigo-600 leading-tight">Results</h1>
+                        <span className="text-xl">{predictedClass}: {confidence}</span>
+                    </div>
                 </div>
             )}
 

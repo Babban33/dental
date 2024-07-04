@@ -232,13 +232,16 @@ function Calculus({onPredictionChange}){
             )}
 
             {generatedImage && (
-                <div className="basis-1/2 mt-6">
+                <div className="mt-6 flex space-x-4">
                     <img
                         src={`data:image/jpeg;base64,${generatedImage}`}
                         alt="Generated Image"
                         className="max-w-full rounded-3xl"
                     />
-                    <span>{predictedClass}: {confidence}</span>
+                    <div className="flex flex-col space-y-2">
+                        <h1 className="font-serif text-3xl text-indigo-600 leading-tight">Results</h1>
+                        <span className="text-xl">{predictedClass}: {confidence}</span>
+                    </div>
                 </div>
             )}
 

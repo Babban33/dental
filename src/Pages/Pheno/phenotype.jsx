@@ -211,7 +211,7 @@ function Phenotype({onPredictionChange}){
                     <div className="flex flex-col space-y-2 items-start">
                         <button onClick={captureAgain} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Capture Again</button>
                         <button onClick={cropPhoto} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Crop Image</button>
-                        <button onClick={checkPheno} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Check OSMF</button>
+                        <button onClick={checkPheno} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">Check Phenotype</button>
                     </div>
                 </div>
             )}
@@ -231,13 +231,16 @@ function Phenotype({onPredictionChange}){
             )}
 
             {generatedImage && (
-                <div className="basis-1/2 mt-6">
+                <div className="mt-6 flex space-x-4">
                     <img
                         src={`data:image/jpeg;base64,${generatedImage}`}
                         alt="Generated Image"
                         className="max-w-full rounded-3xl"
                     />
-                    <span>{predictedClass}: {confidence}</span>
+                    <div className="flex flex-col space-y-2">
+                        <h1 className="font-serif text-3xl text-indigo-600 leading-tight">Results</h1>
+                        <span className="text-xl">{predictedClass}: {confidence}</span>
+                    </div>
                 </div>
             )}
 
