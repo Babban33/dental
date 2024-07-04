@@ -237,7 +237,7 @@ function Gingi({ onPredictionChange }) {
                         className="max-w-full rounded-3xl"
                     />
                     <div className="flex flex-col space-y-2">
-                        <h1 className="font-serif text-3xl text-indigo-600 leading-tight">Results</h1>
+                        <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Results</h1>
                         <span className="text-xl">{predictedClass}: {confidence}</span>
                     </div>
                 </div>
