@@ -104,15 +104,22 @@ function Osmf({ onPredictionChange }) {
                     method: 'POST',
                     body: formData
                 });
-
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-
                 const data = await response.json();
                 setGeneratedImage(data.generatedImage);
                 setPredictedClass(data.class);
                 setConfidence(data.conf);
+
+                const osmf = JSON.parse(localStorage.getItem("osmf")) || [];
+                osmf.push({
+                    capturedPhoto: capturedPhoto,
+                    generatedImage: data.generatedImage,
+                    prediction: data.class,
+                    confidence: confidence
+                });
+                localStorage.setItem("osmf", JSON.stringify(imagePairs));
             } catch (error) {
                 console.error('Error from Server:', error);
             }
