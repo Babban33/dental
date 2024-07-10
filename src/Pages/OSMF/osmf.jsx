@@ -117,9 +117,9 @@ function Osmf({ onPredictionChange }) {
                     capturedPhoto: capturedPhoto,
                     generatedImage: data.generatedImage,
                     prediction: data.class,
-                    confidence: confidence
+                    confidence: data.conf
                 });
-                localStorage.setItem("osmf", JSON.stringify(imagePairs));
+                localStorage.setItem("osmf", JSON.stringify(osmf));
             } catch (error) {
                 console.error('Error from Server:', error);
             }
@@ -243,7 +243,7 @@ function Osmf({ onPredictionChange }) {
                     />
                     <div className="flex flex-col space-y-2">
                         <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Results</h1>
-                        <span className="text-xl">{predictedClass}: {confidence}</span>
+                        <span className="text-xl text-black">{predictedClass}: {confidence}</span>
                     </div>
                 </div>
             )}
