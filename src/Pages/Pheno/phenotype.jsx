@@ -102,7 +102,7 @@ function Phenotype({onPredictionChange}){
                 formData.append('file', selectedImage);
                 console.log(formData.get('file'));
 
-                const response = await fetch("http://127.0.0.1:8000/pheno", {
+                const response = await fetch("http://127.0.0.1:8000/phenotype", {
                     method: 'POST',
                     body: formData
                 });
