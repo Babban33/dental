@@ -1,8 +1,6 @@
 import React from "react";
 import NavButton from "../../components/btn";
-import { useTranslation } from "react-i18next";
 function HomePage() {
-  const {t} = useTranslation();
   return (
     <div className="text-center p-8 mx-4 w-3/4">
       <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">

@@ -6,9 +6,9 @@ import College from './college.png';
 
 function NavBar() {
   return (
-    <div className="flex justify-center -mb-16">
+    <div className="flex justify-center items-center -mb-16">
       <div className='flex items-center space-x-4 p-4'>
-        <img src={College} alt="GHRCE Logo" className='h-16 -mr-6' />
+        <img src={College} alt="GHRCE Logo" className='h-16' />
         <img src={Birac} alt="BIRAC Logo" className="h-16" />
         <img src={SDK} alt="SDK Logo" className="h-16" />
         <img src={Betic} alt="Betic Logo" className="h-16" />
