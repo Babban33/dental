@@ -16,6 +16,7 @@ function Osmf({ onPredictionChange }) {
     const [confidence, setConfidence] = useState(null);
     const [openCrop, isOpenCrop] = useState(false);
     const [crop, setCrop] = useState(null);
+    const [showPopup, setShowPopup] = useState(false);
 
     useEffect(() => {
         console.log("Prediction state:", predictedClass);
@@ -81,6 +82,7 @@ function Osmf({ onPredictionChange }) {
             mediaStream.getTracks().forEach(track => track.stop());
             setMediaStream(null);
         }
+        setShowPopup(false);  // Close the popup after capturing the photo
     };
 
     const captureAgain = async () => {
@@ -179,32 +181,47 @@ function Osmf({ onPredictionChange }) {
                         </option>
                     ))}
                 </select>
-                {streaming ? (
-                    photoClicked && (
-                        <button onClick={capturePhoto} className="ml-2 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Capture Photo
-                        </button>
-                    )
-                ) : (
-                    <button onClick={toggleStreaming} className="ml-2 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                {!streaming && (
+                    <button onClick={() => { toggleStreaming(); setShowPopup(true); }} className="ml-2 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Start Streaming
                     </button>
                 )}
             </div>
 
-            {/* Display the stream */}
-            {mediaStream && (
-                <div className="mt-4">
-                    <video
-                        autoPlay
-                        playsInline
-                        ref={videoRef => {
-                            if (videoRef) {
-                                videoRef.srcObject = mediaStream;
-                            }
-                        }}
-                        className="w-full rounded-3xl shadow-2xl border border-gray-300"
-                    />
+            {/* Display the stream in a popup */}
+            {showPopup && mediaStream && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+                    <div className="relative bg-white p-4 rounded-3xl shadow-lg">
+                        <video
+                            autoPlay
+                            playsInline
+                            ref={videoRef => {
+                                if (videoRef) {
+                                    videoRef.srcObject = mediaStream;
+                                }
+                            }}
+                            className="w-full rounded-3xl shadow-2xl border border-gray-300 max-h-3/4"
+                        />
+                        {photoClicked && (
+                            <button
+                                onClick={capturePhoto}
+                                className="absolute bottom-2 bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded-full"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-8">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316Z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0ZM18.75 10.5h.008v.008h-.008V10.5Z" />
+                                </svg>
+                            </button>
+                        )}
+                        <button
+                            onClick={() => {setShowPopup(false);setStreaming(false); toggleStreaming();}}
+                            className="absolute top-2 right-2 bg-red-500 hover:bg-red-700 text-white font-bold p-2 rounded-full"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             )}
 
