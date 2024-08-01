@@ -240,7 +240,7 @@ function Calculus({onPredictionChange}){
                     />
                     <div className="flex flex-col space-y-2">
                         <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Results</h1>
-                        <span className="text-xl">{predictedClass}: {confidence}</span>
+                        <span className="text-xl text-black">{predictedClass}: {confidence}</span>
                     </div>
                 </div>
             )}
