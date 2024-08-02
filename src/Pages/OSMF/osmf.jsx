@@ -3,7 +3,7 @@ import NavButton from "../../components/btn";
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
-function Osmf({ onPredictionChange }) {
+function Osmf() {
     const [cameras, setCameras] = useState([]);
     const [selectedCamera, setSelectedCamera] = useState("");
     const [streaming, setStreaming] = useState(false);
@@ -17,11 +17,6 @@ function Osmf({ onPredictionChange }) {
     const [openCrop, isOpenCrop] = useState(false);
     const [crop, setCrop] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
-
-    useEffect(() => {
-        console.log("Prediction state:", predictedClass);
-        onPredictionChange(predictedClass);
-    }, [predictedClass, onPredictionChange]);
 
     useEffect(() => {
         const getAvailableCameras = async () => {
@@ -278,7 +273,7 @@ function Osmf({ onPredictionChange }) {
                     />
                     <div className="flex flex-col space-y-2">
                         <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Results</h1>
-                        <span className="text-xl text-black">{predictedClass}: {confidence}</span>
+                        <span className="text-xl text-black"><span className="font-bold">{predictedClass}:</span> {confidence}</span>
                     </div>
                 </div>
             )}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Results({ disease1, disease2, disease3, disease4, disease5 }) {
-  const [osmf, setDisease1] = useState(null);
+function Results({ disease2, disease3, disease4, disease5 }) {
   const [gingivitis, setDisease2] = useState(null);
   const [phenotype, setDisease3] = useState(null);
   const [calculus, setDisease4] = useState(null);
@@ -21,12 +20,11 @@ function Results({ disease1, disease2, disease3, disease4, disease5 }) {
   }, []);
 
   useEffect(() => {
-    setDisease1(disease1);
     setDisease2(disease2);
     setDisease3(phenotype);
     setDisease4(calculus);
     setDisease5(caries);
-  }, [disease1, disease2, disease3, disease4, disease5]);
+  }, [disease2, disease3, disease4, disease5]);
 
   return (
     <div className='space-y-6 text-gray-800 p-4 md:p-8'>
