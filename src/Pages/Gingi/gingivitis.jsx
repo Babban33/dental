@@ -119,6 +119,15 @@ function Gingi({ onPredictionChange }) {
                 setGeneratedImage(data.generatedImage);
                 setPredictedClass(data.class);
                 setConfidence(data.conf);
+
+                const gingivitis = JSON.parse(localStorage.getItem("gingivitis")) || [];
+                gingivitis.push({
+                    capturedPhoto: capturedPhoto,
+                    generatedImage: data.generatedImage,
+                    prediction: data.class,
+                    confidence: data.conf
+                });
+                localStorage.setItem("gingivitis", JSON.stringify(gingivitis));
             } catch (error) {
                 console.error('Error from Server:', error);
             }

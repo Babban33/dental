@@ -120,6 +120,15 @@ function Calculus({onPredictionChange}){
                 setGeneratedImage(data.generatedImage);
                 setPredictedClass(data.class);
                 setConfidence(data.conf);
+
+                const calculus = JSON.parse(localStorage.getItem("calculus")) || [];
+                calculus.push({
+                    capturedPhoto: capturedPhoto,
+                    generatedImage: data.generatedImage,
+                    prediction: data.class,
+                    confidence: data.conf
+                });
+                localStorage.setItem("calculus", JSON.stringify(calculus));
             } catch (error){
                 console.error('Error from Server:', error);
             }

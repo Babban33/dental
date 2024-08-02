@@ -119,6 +119,15 @@ function Phenotype({onPredictionChange}){
                 setGeneratedImage(data.generatedImage);
                 setPredictedClass(data.class);
                 setConfidence(data.conf);
+
+                const pheno = JSON.parse(localStorage.getItem("pheno")) || [];
+                pheno.push({
+                    capturedPhoto: capturedPhoto,
+                    generatedImage: data.generatedImage,
+                    prediction: data.class,
+                    confidence: data.conf
+                });
+                localStorage.setItem("pheno", JSON.stringify(pheno));
             } catch (error){
                 console.error('Error from Server:', error);
             }

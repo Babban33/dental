@@ -120,6 +120,14 @@ function Caries({ onPredictionChange}){
                 setGeneratedImage(data.generatedImage);
                 setPredictedClass(data.class);
                 setConfidence(data.conf);
+
+                const caries = JSON.parse(localStorage.getItem("caries")) || [];
+                caries.push({
+                    capturedPhoto: capturedPhoto,
+                    generatedImage: data.generatedImage,
+                    prediction: data.class,
+                    confidence: data.conf
+                })
             } catch (error){
                 console.error('Error from Server:', error);
             }
