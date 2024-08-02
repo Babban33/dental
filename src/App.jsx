@@ -14,14 +14,10 @@ import Results from './Pages/Result/results';
 import { useState } from 'react';
 import Calculus from './Pages/Calculus/calculus';
 function App() {
-  const [gingivitisPrediction, setGingivitisPrediction] = useState(null);
   const [phenotypePrediction, setPhenotypePrediction] = useState(null);
   const [calculusPrediction, setcalculusPrediction] = useState(null);
   const [cariesPrediction, setcariesPrediction] = useState(null);
 
-  const handleGingivitisChange = (prediction) => {
-    setGingivitisPrediction(prediction);
-  };
   const handlePhenotypeChange = (prediction) => {
     setPhenotypePrediction(prediction);
   };
@@ -44,11 +40,11 @@ function App() {
             <Route path="/opening" element={<MouthOpening/>}/>
             <Route path='/selection' element={<SelectionPage/>}/>
             <Route path="/osmf" element={<Osmf/>}/>
-            <Route path="/gingivitis" element={<Gingi onPredictionChange={handleGingivitisChange}/>}/>
+            <Route path="/gingivitis" element={<Gingi/>}/>
             <Route path="/phenotype" element={<Phenotype onPredictionChange={handlePhenotypeChange}/>} />
             <Route path='/calculus' element={<Calculus onPredictionChange={handleCalculusChange}/>}/>
             <Route path="/caries" element={<Caries onPredictionChange={handleCariesChange}/>}/>
-            <Route path='/results' element={<Results disease2={gingivitisPrediction} disease3={phenotypePrediction} disease4={calculusPrediction} disease5={cariesPrediction}/>}/>
+            <Route path='/results' element={<Results disease3={phenotypePrediction} disease4={calculusPrediction} disease5={cariesPrediction}/>}/>
           </Routes>
         </main>
         {/* <Footer /> */}

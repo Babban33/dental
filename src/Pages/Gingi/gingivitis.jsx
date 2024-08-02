@@ -3,7 +3,7 @@ import NavButton from "../../components/btn";
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
-function Gingi({ onPredictionChange }) {
+function Gingi() {
     const [cameras, setCameras] = useState([]);
     const [selectedCamera, setSelectedCamera] = useState("");
     const [streaming, setStreaming] = useState(false);
@@ -17,11 +17,6 @@ function Gingi({ onPredictionChange }) {
     const [openCrop, isOpenCrop] = useState(false);
     const [crop, setCrop] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
-
-    useEffect(() => {
-        console.log("Prediction state:", predictedClass);
-        onPredictionChange(predictedClass);
-    }, [predictedClass, onPredictionChange]);
 
     useEffect(() => {
         const getAvailableCameras = async () => {
