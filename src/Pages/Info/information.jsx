@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
+import content from "../data.json";
 
 function InfoPage() {
     const [name, setName] = useState("");
@@ -12,7 +13,16 @@ function InfoPage() {
     const [isNumVisible, setIsNumVisible] = useState(false);
     const [isVillageVisible, setIsVillageVisible] = useState(false);
     const [layoutName, setLayoutName] = useState("default");
+    const [language, setLanguage] = useState('en');
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        const getLang = () =>{
+            const lang = localStorage.getItem('lang');
+            setLanguage(lang);
+        }
+        getLang();
+    },[]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -65,17 +75,17 @@ function InfoPage() {
 
     return(
         <div className="text-black">
-            <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Patient Information</h1>
+            <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">{content["Info"][language].title}</h1>
             <form onSubmit={handleSubmit} className="mt-4">
                 <div className="mb-4 flex flex-row items-center">
-                    <label htmlFor="name" className="block text-gray-700 text-sm font-bold mr-2">Name:</label>
+                    <label htmlFor="name" className="block text-gray-700 text-sm font-bold mr-2">{content["Info"][language]["input1"].label}</label>
                     <input
                         type="text"
                         id="name"
                         name="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Enter your Name"
+                        placeholder={content["Info"][language]["input1"].holder}
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
                         onFocus={toggleNameKeyboard}
                         required
@@ -93,12 +103,12 @@ function InfoPage() {
                     />
                 )}
                 <div className="mb-4 flex flex-row items-center">
-                    <label htmlFor="age" className="block text-gray-700 text-sm font-bold mr-2">Age:</label>
+                    <label htmlFor="age" className="block text-gray-700 text-sm font-bold mr-2">{content["Info"][language]["input2"].label}</label>
                     <input
                         type="number"
                         id="age"
                         name="age"
-                        placeholder="Enter your Age"
+                        placeholder={content["Info"][language]["input2"].holder}
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
@@ -116,7 +126,7 @@ function InfoPage() {
                     />
                 )}
                 <div className="mb-4 flex flex-row items-center">
-                    <label htmlFor="gender" className="block text-gray-700 text-sm font-bold mr-2">Gender:</label>
+                    <label htmlFor="gender" className="block text-gray-700 text-sm font-bold mr-2">{content["Info"][language]["input3"].label}</label>
                     <select
                         id="gender"
                         name="gender"
@@ -125,20 +135,20 @@ function InfoPage() {
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
                         required
                     >
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
+                        <option value="">{content["Info"][language]["input3"].holder}</option>
+                        <option value="male">{content["Info"][language]["input3"].option1}</option>
+                        <option value="female">{content["Info"][language]["input3"].option2}</option>
+                        <option value="other">{content["Info"][language]["input3"].option3}</option>
                     </select>
                 </div>
                 <div className="mb-4 flex flex-row items-center">
-                    <label htmlFor="village" className="block text-gray-700 text-sm font-bold mr-2">Village:</label>
+                    <label htmlFor="village" className="block text-gray-700 text-sm font-bold mr-2">{content["Info"][language]["input4"].label}</label>
                     <input
                         type="text"
                         id="village"
                         name="village"
                         value={village}
-                        placeholder="Enter your Village Name"
+                        placeholder={content["Info"][language]["input4"].holder}
                         onChange={(e) => setVillage(e.target.value)}
                         className="border rounded-md px-3 py-2 w-full text-gray-700"
                         required
@@ -154,7 +164,7 @@ function InfoPage() {
                         onKeyPress={onKeyPress}
                     />
                 )}
-                <button type="submit" className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-full mb-2">Submit</button>
+                <button type="submit" className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-full mb-2">{content["Info"][language].buttonText}</button>
             </form>
         </div>
     );

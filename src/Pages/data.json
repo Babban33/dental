@@ -1,22 +1,70 @@
 {
-    "HomePage": {
-      "en": {
-        "title": "BIRAC AGC JanCare Project",
-        "subtitle": "Smart Web Based Application for Dental Disease Detection using Artificial Intelligence",
-        "tagline": "Smile with Confidence",
-        "buttonText": "Let's get started"
-      },
-      "hi": {
-        "title": "BIRAC एजीसी जनकेयर परियोजना",
-        "subtitle": "दंत रोग का पता लगाएं एआई की मदद से",
-        "tagline": "आत्मविश्वास के साथ मुस्कुराएं",
-        "buttonText": "चलो शुरू करें"
-      },
-      "mar":{
-        "title":"BIRAC एजीसी जनकेयर प्रकल्प",
-        "subtitle": "AI च्या मदतीने दातांचे आजार ओळखा",
-        "tagline": "आत्मविश्वासाने हसणे",
-        "buttonText": "सुरु करा"
-      }
+    "HomePage":{
+        "en": {
+            "title": "BIRAC AGC JanCare Project",
+            "subtitle": "Smart Web Based Application for Dental Disease Detection using Artificial Intelligence",
+            "tagline": "Smile with Confidence",
+            "buttonText": "Let's get started"
+        },
+        "hi":{
+            "title": "BIRAC एजीसी जनकेयर परियोजना",
+            "subtitle": "दंत रोग का पता लगाएं एआई की मदद से",
+            "tagline": "आत्मविश्वास के साथ मुस्कुराएं",
+            "buttonText": "चलो शुरू करें"
+        },
+        "mar": {
+            "title":"BIRAC एजीसी जनकेयर प्रकल्प",
+            "subtitle": "AI च्या मदतीने दातांचे आजार ओळखा",
+            "tagline": "आत्मविश्वासाने हसणे",
+            "buttonText": "सुरु करा"
+        }
+    },
+    "Info": {
+        "en": {
+            "title": "Patient Information",
+            "input1": {
+                "label": "Name:",
+                "holder": "Enter your Name"
+            },
+            "input2": {
+                "label": "Age:",
+                "holder": "Enter your Age"
+            },
+            "input3":{
+                "label": "Gender:",
+                "holder": "Select Gender",
+                "option1": "Female",
+                "option2": "Male",
+                "option3": "Others"
+            },
+            "input4":{
+                "label": "Village:",
+                "holder": "Enter Village Name"
+            },
+            "buttonText": "Submit"
+        },
+        "hi": {
+            "title": "रोगी की जानकारी",
+            "input1": {
+                "label": "नाम:",
+                "holder": "अपना नाम दर्ज करें"
+            },
+            "input2": {
+                "label": "आयु:",
+                "holder": "अपनी आयु दर्ज करें"
+            },
+            "input3":{
+                "label": "लिंग:",
+                "holder": "अपना लिंग चुनें",
+                "option1": "महिला",
+                "option2": "पुरुष",
+                "option3": "अन्य"
+            },
+            "input4":{
+                "label": "गाँव:",
+                "holder": "गांव का नाम दर्ज करें"
+            },
+            "buttonText": "समाप्त"
+        }
     }
 }
