@@ -140,7 +140,7 @@
             "streambtn": "Start Streaming",
             "cap": "Capture Again",
             "crop": "Crop Image",
-            "check": "Check OSMF",
+            "check": "Check for OSMF",
             "res": "Results"
         },
         "hi":{
@@ -149,13 +149,30 @@
             "streambtn": "शुरू करे",
             "cap": "फ़िर से फोटो खींचे",
             "crop": "फोटो को क्रॉप करें",
-            "check": "ओएसएमएफ की जाँच करें",
+            "check": "जाँच करें",
+            "res": "परिणाम"
+        },
+        "mar":{
+            "title": "ओ एस एम एफ तपासा",
+            "option": "कॅमेरा निवडा",
+            "streambtn": "सुरु करा",
+            "cap": "पुन्हा फोटो घ्या",
+            "crop": "फोटो क्रॉप करा",
+            "check": "तपासा",
             "res": "परिणाम"
         }
     },
-
-
-
+    "pages": {
+        "en":{
+            "gingi": "Check for Gingivitis"
+        },
+        "hi":{
+            "gingi": "मसूड़े की सूजन की जाँच करें"
+        },
+        "mar":{
+            "gingi": "हिरड्यांना आलेली सूज तपासा"
+        }
+    },
 
     "Nav":{
         "en":{
