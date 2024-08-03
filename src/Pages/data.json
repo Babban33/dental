@@ -1,0 +1,22 @@
+{
+    "HomePage": {
+      "en": {
+        "title": "BIRAC AGC JanCare Project",
+        "subtitle": "Smart Web Based Application for Dental Disease Detection using Artificial Intelligence",
+        "tagline": "Smile with Confidence",
+        "buttonText": "Let's get started"
+      },
+      "hi": {
+        "title": "BIRAC एजीसी जनकेयर परियोजना",
+        "subtitle": "दंत रोग का पता लगाएं एआई की मदद से",
+        "tagline": "आत्मविश्वास के साथ मुस्कुराएं",
+        "buttonText": "चलो शुरू करें"
+      },
+      "mar":{
+        "title":"BIRAC एजीसी जनकेयर प्रकल्प",
+        "subtitle": "AI च्या मदतीने दातांचे आजार ओळखा",
+        "tagline": "आत्मविश्वासाने हसणे",
+        "buttonText": "सुरु करा"
+      }
+    }
+}
