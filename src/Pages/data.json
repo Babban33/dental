@@ -140,7 +140,7 @@
             "streambtn": "Start Streaming",
             "cap": "Capture Again",
             "crop": "Crop Image",
-            "check": "Check for OSMF",
+            "check": "Check for disease",
             "res": "Results"
         },
         "hi":{
@@ -164,13 +164,22 @@
     },
     "pages": {
         "en":{
-            "gingi": "Check for Gingivitis"
+            "gingi": "Gingivitis Prediction",
+            "pheno": "Phenotype Prediction",
+            "cal": "Check Prediction",
+            "car": "Caries Prediction"
         },
         "hi":{
-            "gingi": "मसूड़े की सूजन की जाँच करें"
+            "gingi": "मसूड़े की सूजन की जाँच करें",
+            "pheno": "फेनोटाइप की जाँच करें",
+            "cal": "कॅल्क्युलस की जाँच करें",
+            "car": "कॅरीज की जाँच करें"
         },
         "mar":{
-            "gingi": "हिरड्यांना आलेली सूज तपासा"
+            "gingi": "हिरड्यांना आलेली सूज तपासा",
+            "pheno": "फेनोटाइप तपासा",
+            "cal": "कॅल्क्युलस तपासा",
+            "car": "कॅरीज तपासा"
         }
     },
 
