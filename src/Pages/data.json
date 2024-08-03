@@ -133,6 +133,26 @@
             "dis5": "कॅरीज"
         }
     },
+    "osmf":{
+        "en":{
+            "title": "OSMF Prediction",
+            "option": "Select Camera",
+            "streambtn": "Start Streaming",
+            "cap": "Capture Again",
+            "crop": "Crop Image",
+            "check": "Check OSMF",
+            "res": "Results"
+        },
+        "hi":{
+            "title": "ओ एस एम एफ की जांच",
+            "option": "कैमरा चुनें",
+            "streambtn": "शुरू करे",
+            "cap": "फ़िर से फोटो खींचे",
+            "crop": "फोटो को क्रॉप करें",
+            "check": "ओएसएमएफ की जाँच करें",
+            "res": "परिणाम"
+        }
+    },
 
 
 

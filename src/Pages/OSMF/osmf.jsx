@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavButton from "../../components/btn";
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import content from "../data.json";
 
 function Osmf() {
     const [cameras, setCameras] = useState([]);
@@ -17,6 +18,7 @@ function Osmf() {
     const [openCrop, isOpenCrop] = useState(false);
     const [crop, setCrop] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
+    const [language, setLanguage] = useState('en');
 
     useEffect(() => {
         const getAvailableCameras = async () => {
@@ -33,6 +35,11 @@ function Osmf() {
         };
 
         getAvailableCameras();
+
+        const getLang =()=>{
+            setLanguage(localStorage.getItem('lang'));
+        };
+        getLang();
     }, []);
 
     const handleCameraChange = (event) => {
@@ -162,10 +169,10 @@ function Osmf() {
 
     return (
         <div>
-            <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">OSMF Prediction</h1>
+            <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">{content["osmf"][language].title}</h1>
 
             <div className="mt-2 flex items-center">
-                <h2 className="text-2xl font-medium text-gray-700 mr-2">Select Camera:</h2>
+                <h2 className="text-2xl font-medium text-gray-700 mr-2">{content["osmf"][language].option}</h2>
                 <select
                     value={selectedCamera}
                     onChange={handleCameraChange}
@@ -179,7 +186,7 @@ function Osmf() {
                 </select>
                 {!streaming && (
                     <button onClick={() => { toggleStreaming(); setShowPopup(true); }} className="ml-2 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Start Streaming
+                        {content["osmf"][language].streambtn}
                     </button>
                 )}
             </div>
@@ -227,21 +234,21 @@ function Osmf() {
                     <img src={capturedPhoto} alt="Captured" className="max-h-3/4 rounded-3xl shadow-2xl border border-gray-300" />
                     <div className="flex flex-col space-y-2 items-start">
                         <button onClick={captureAgain} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex">
-                            Capture Again
+                            {content["osmf"][language].cap}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 ml-2">
                             <path d="M12 9a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 9Z" />
                             <path fillRule="evenodd" d="M9.344 3.071a49.52 49.52 0 0 1 5.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 0 1-3 3h-15a3 3 0 0 1-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 0 0 1.11-.71l.822-1.315a2.942 2.942 0 0 1 2.332-1.39ZM6.75 12.75a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Zm12-1.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clipRule="evenodd" />
                             </svg>
                         </button>
                         <button onClick={cropPhoto} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex">
-                            Crop Image
+                            {content["osmf"][language].crop}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 ml-2">
                             <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
                             <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
                             </svg>
                         </button>
                         <button onClick={checkOsmf} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full flex">
-                            Check OSMF
+                            {content["osmf"][language].check}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6 ml-2">
                             <path fillRule="evenodd" d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
                             </svg>
@@ -272,15 +279,15 @@ function Osmf() {
                         className="max-w-full rounded-3xl"
                     />
                     <div className="flex flex-col space-y-2">
-                        <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Results</h1>
+                        <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">{content["osmf"][language].res}</h1>
                         <span className="text-xl text-black"><span className="font-bold">{predictedClass}:</span> {confidence}</span>
                     </div>
                 </div>
             )}
 
             <div className="justify-center gap-4 mt-4 grid grid-cols-2">
-                <NavButton destination="/selection" text="Previous" />
-                <NavButton destination="/gingivitis" text="Next" />
+                <NavButton destination="/selection" text={content["Nav"][language].btn1} />
+                <NavButton destination="/gingivitis" text={content["Nav"][language].btn2} />
             </div>
         </div>
     );
