@@ -107,6 +107,36 @@
             "streambtn": "सुरु करा"
         }
     },
+    "Select": {
+        "en":{
+            "title": "Select Disease",
+            "dis1": "OSMF",
+            "dis2": "Gingivitis",
+            "dis3": "Gingival Phenotype",
+            "dis4": "Calculus",
+            "dis5": "Caries"
+        },
+        "hi":{
+            "title": "रोग का चयन करें",
+            "dis1": "ओ एस एम एफ",
+            "dis2": "मसूड़े की सूजन",
+            "dis3": "जिंजिवल फेनोटाइप",
+            "dis4": "कॅल्क्युलस",
+            "dis5": "कॅरीज"
+        },
+        "mar":{
+            "title": "रोग निवडा",
+            "dis1": "ओ एस एम एफ",
+            "dis2": "हिरड्यांना आलेली सूज",
+            "dis3": "जिंजिवल फेनोटाइप",
+            "dis4": "कॅल्क्युलस",
+            "dis5": "कॅरीज"
+        }
+    },
+
+
+
+
     "Nav":{
         "en":{
             "btn1": "Previous",
