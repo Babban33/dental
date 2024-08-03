@@ -65,6 +65,60 @@
                 "holder": "गांव का नाम दर्ज करें"
             },
             "buttonText": "समाप्त"
+        },
+        "mar": {
+            "title": "रुग्णाची माहिती",
+            "input1": {
+                "label": "नाव:",
+                "holder": "आपले नांव लिहा"
+            },
+            "input2": {
+                "label": "वय:",
+                "holder": "आपले वय लिहा"
+            },
+            "input3":{
+                "label": "लिंग:",
+                "holder": "तुमचे लिंग निवडा",
+                "option1": "स्त्री",
+                "option2": "पुरुष",
+                "option3": "इतर"
+            },
+            "input4":{
+                "label": "गाव:",
+                "holder": "तुमच्या गावाचे नाव टाका"
+            },
+            "buttonText": "पाठवा"
+        }
+    },
+    "Open": {
+        "en":{
+            "title": "Mouth Opening",
+            "option": "Select Camera",
+            "streambtn": "Start Streaming"
+        },
+        "hi":{
+            "title": "मुँह खोलना",
+            "option": "कैमरा चुनें",
+            "streambtn": "शुरू करे"
+        },
+        "mar":{
+            "title": "तोंड उघडणे",
+            "option": "कॅमेरा निवडा",
+            "streambtn": "सुरु करा"
+        }
+    },
+    "Nav":{
+        "en":{
+            "btn1": "Previous",
+            "btn2": "Next"
+        },
+        "hi":{
+            "btn1": "पिचला",
+            "btn2": "अगला"
+        },
+        "mar":{
+            "btn1": "मागील",
+            "btn2": "पुढे"
         }
     }
 }

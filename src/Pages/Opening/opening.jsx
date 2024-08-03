@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavButton from "../../components/btn";
+import content from "../data.json";
 
 function MouthOpening() {
     const [cameras, setCameras] = useState([]);
@@ -12,6 +13,7 @@ function MouthOpening() {
     const [generatedImage, setGeneratedImage] = useState(null);
     const [length, setLength] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
+    const [language, setLanguage] = useState('en');
 
     useEffect(() => {
         const getAvailableCameras = async () => {
@@ -28,6 +30,12 @@ function MouthOpening() {
         };
 
         getAvailableCameras();
+
+        const getLang = () =>{
+            const lang = localStorage.getItem('lang');
+            setLanguage(lang);
+        }
+        getLang();
     }, []);
 
     const handleCameraChange = (event) => {
@@ -107,10 +115,10 @@ function MouthOpening() {
 
     return (
         <div>
-            <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">Mouth Opening</h1>
+            <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">{content["Open"][language].title}</h1>
 
             <div className="mt-2 flex flex-row items-center">
-                <h2 className="text-2xl font-medium text-gray-700 mr-2">Select Camera:</h2>
+                <h2 className="text-2xl font-medium text-gray-700 mr-2">{content["Open"][language].option}:</h2>
                 <select
                     value={selectedCamera}
                     onChange={handleCameraChange}
@@ -124,7 +132,7 @@ function MouthOpening() {
                 </select>
                 {!streaming && (
                     <button onClick={() => { toggleStreaming(); setShowPopup(true); }} className="ml-2 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Start Streaming
+                            {content["Open"][language].streambtn}
                     </button>
                 )}
             </div>
@@ -185,8 +193,8 @@ function MouthOpening() {
             )}
 
             <div className="justify-center gap-4 mt-4 grid grid-cols-2">
-                <NavButton destination="/" text="Previous" />
-                <NavButton destination="/selection" text="Next" />
+                <NavButton destination="/" text={content["Nav"][language].btn1} />
+                <NavButton destination="/selection" text={content["Nav"][language].btn2} />
             </div>
         </div>
     );
