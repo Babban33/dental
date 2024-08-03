@@ -11,7 +11,7 @@ function HomePage() {
   const handleLanguageChange = (event) => {
     const newLanguage = event.target.value;
     setLanguage(newLanguage);
-    localStorage.setItem('language', newLanguage);
+    localStorage.setItem('lang', newLanguage);
   };
 
   return (
