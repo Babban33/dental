@@ -294,8 +294,8 @@ function Caries({ onPredictionChange}){
             )}
 
             <div className="justify-center gap-4 mt-4 grid grid-cols-2">
-                <NavButton text="Previous" destination="/selection"/>
-                <NavButton text="Next" destination="/results" />
+                <NavButton text={content["Nav"][language].btn1} destination="/selection"/>
+                <NavButton text={content["Nav"][language].btn2} destination="/results" />
             </div>
         </div>
     )
