@@ -13,10 +13,13 @@ import SelectionPage from './Pages/Options/options';
 import Results from './Pages/Result/results';
 import { useState } from 'react';
 import Calculus from './Pages/Calculus/calculus';
+
+import {isBrowser } from 'react-device-detect';
 function App() {
   const [phenotypePrediction, setPhenotypePrediction] = useState(null);
   const [calculusPrediction, setcalculusPrediction] = useState(null);
   const [cariesPrediction, setcariesPrediction] = useState(null);
+  const [browser, setBrowser] = useState(isBrowser);
 
   const handlePhenotypeChange = (prediction) => {
     setPhenotypePrediction(prediction);
@@ -37,7 +40,7 @@ function App() {
             <Route path="/" element={<HomePage/>}/>
             <Route path="*" element={<h1>Page not found</h1>} />
             <Route path='/info' element={<InfoPage/>}/>
-            <Route path="/opening" element={<MouthOpening/>}/>
+            {browser && (<Route path="/opening" element={<MouthOpening/>}/>)}
             <Route path='/selection' element={<SelectionPage/>}/>
             <Route path="/osmf" element={<Osmf/>}/>
             <Route path="/gingivitis" element={<Gingi/>}/>

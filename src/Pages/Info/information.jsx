@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import content from "../data.json";
-
+import { isMobile } from "react-device-detect";
 function InfoPage() {
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
@@ -36,7 +36,12 @@ function InfoPage() {
             village: village
         };
         localStorage.setItem("formData", JSON.stringify(formData));
-        navigate("/opening");
+        if (isMobile){
+            navigate("/selection");
+        }
+        else{
+            navigate("/opening");
+        }
         console.log(formData);
     };
 
