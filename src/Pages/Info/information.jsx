@@ -26,9 +26,8 @@ function InfoPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const existingFormData = localStorage.getItem("formData");
-        if (existingFormData) {
-            localStorage.clear();
+        if (localStorage.getItem("formData")) {
+            localStorage.removeItem("formData");
         }
         const formData = {
             name: name,
