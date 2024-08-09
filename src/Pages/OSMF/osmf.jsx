@@ -3,7 +3,7 @@ import NavButton from "../../components/btn";
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import content from "../data.json";
-
+import { BrowserView, MobileView } from "react-device-detect";
 function Osmf() {
     const [cameras, setCameras] = useState([]);
     const [selectedCamera, setSelectedCamera] = useState("");
@@ -287,7 +287,12 @@ function Osmf() {
 
             <div className="justify-center gap-4 mt-4 grid grid-cols-2">
                 <NavButton destination="/selection" text={content["Nav"][language].btn1} />
-                <NavButton destination="/gingivitis" text={content["Nav"][language].btn2} />
+                <BrowserView>
+                    <NavButton destination="/gingivitis" text={content["Nav"][language].btn2} />
+                </BrowserView>
+                <MobileView>
+                    <NavButton destination="/results" text={content["Nav"][language].btn2} />
+                </MobileView>
             </div>
         </div>
     );
