@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import NavButton from "../../components/btn";
 import content from "../data.json";
 import { isMobile } from 'react-device-detect';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
   const [language, setLanguage] = useState(localStorage.getItem('lang') || 'en');
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
     localStorage.setItem('lang', language);
   }, [language]);
@@ -14,6 +16,23 @@ function HomePage() {
     const newLanguage = event.target.value;
     setLanguage(newLanguage);
     localStorage.setItem('lang', newLanguage);
+  };
+
+  const handleButtonClick = async () => {
+    try {
+      // Request permission to access the camera
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (stream) {
+        // Stop the stream after getting permission
+        stream.getTracks().forEach(track => track.stop());
+
+        // Navigate to the destination if permission is granted
+        navigate('/info');
+      }
+    } catch (error) {
+      console.error('Camera access denied:', error);
+      alert("Camera access is required to proceed.");
+    }
   };
 
   return (
@@ -31,7 +50,12 @@ function HomePage() {
       </p>
 
       <div className={`flex items-center justify-center mt-4 space-x-4 ${isMobile ? 'flex-col space-y-4' : 'flex-row space-x-4'}`}>
-        <NavButton text={content["HomePage"][language].buttonText} destination="/info" />
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={handleButtonClick}
+        >
+          {content["HomePage"][language].buttonText}
+        </button>
         <select
           className={`border border-gray-300 rounded-md p-2 bg-white text-gray-700 ${isMobile ? 'w-full' : ''}`}
           value={language}
