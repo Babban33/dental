@@ -20,13 +20,9 @@ function HomePage() {
 
   const handleButtonClick = async () => {
     try {
-      // Request permission to access the camera
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (stream) {
-        // Stop the stream after getting permission
         stream.getTracks().forEach(track => track.stop());
-
-        // Navigate to the destination if permission is granted
         navigate('/info');
       }
     } catch (error) {
