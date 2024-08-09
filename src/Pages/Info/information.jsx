@@ -4,6 +4,7 @@ import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import content from "../data.json";
 import { isMobile } from "react-device-detect";
+
 function InfoPage() {
     const [name, setName] = useState("");
     const [age, setAge] = useState("");
@@ -16,13 +17,13 @@ function InfoPage() {
     const [language, setLanguage] = useState('en');
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        const getLang = () =>{
+    useEffect(() => {
+        const getLang = () => {
             const lang = localStorage.getItem('lang');
             setLanguage(lang);
-        }
+        };
         getLang();
-    },[]);
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -36,10 +37,9 @@ function InfoPage() {
             village: village
         };
         localStorage.setItem("formData", JSON.stringify(formData));
-        if (isMobile){
+        if (isMobile) {
             navigate("/selection");
-        }
-        else{
+        } else {
             navigate("/opening");
         }
         console.log(formData);
@@ -47,37 +47,37 @@ function InfoPage() {
 
     // Virtual Keyboard
     const toggleNameKeyboard = () => {
-        setIsNameVisible(true);
+        if (!isMobile) setIsNameVisible(true);
         setIsNumVisible(false);
         setIsVillageVisible(false);
     };
-    
-    const toggleAgeKeyboard = () => {
-        setIsNumVisible(true);
-        setIsNameVisible(false);
-        setIsVillageVisible(false);
-    };
-    
-    const toggleVillage = () => {
-        setIsVillageVisible(true);
-        setIsNumVisible(false);
-        setIsNameVisible(false);
-    }
 
-    const handleShift = () =>{
+    const toggleAgeKeyboard = () => {
+        if (!isMobile) setIsNumVisible(true);
+        setIsNameVisible(false);
+        setIsVillageVisible(false);
+    };
+
+    const toggleVillage = () => {
+        if (!isMobile) setIsVillageVisible(true);
+        setIsNumVisible(false);
+        setIsNameVisible(false);
+    };
+
+    const handleShift = () => {
         const newLayoutName = layoutName === "default" ? "shift" : "default";
         setLayoutName(newLayoutName);
-    }
+    };
 
-    const onKeyPress = button => {
+    const onKeyPress = (button) => {
         console.log("Button Pressed", button);
         if (button === "{shift}") handleShift();
         else if (isNameVisible) setName(name + button);
         else if (isNumVisible) setAge(age + button);
         else if (isVillageVisible) setVillage(village + button);
-    }
+    };
 
-    return(
+    return (
         <div className="text-black">
             <h1 className="font-serif text-4xl font-bold text-indigo-600 leading-tight">{content["Info"][language].title}</h1>
             <form onSubmit={handleSubmit} className="mt-4">
@@ -95,7 +95,7 @@ function InfoPage() {
                         required
                     />
                 </div>
-                {isNameVisible && (
+                {isNameVisible && !isMobile && (
                     <Keyboard
                         layout={{
                             default: ["q w e r t y u i o p", "a s d f g h j k l {bksp}", "{shift} z x c v b n m next", "{space}"],
@@ -120,7 +120,7 @@ function InfoPage() {
                         onFocus={toggleAgeKeyboard}
                     />
                 </div>
-                {isNumVisible && (
+                {isNumVisible && !isMobile && (
                     <Keyboard
                         layout={{
                             default: ["1 2 3", "4 5 6", "7 8 9", "0 {bksp} {enter}"]
@@ -159,7 +159,7 @@ function InfoPage() {
                         onFocus={toggleVillage}
                     />
                 </div>
-                {isVillageVisible && (
+                {isVillageVisible && !isMobile && (
                     <Keyboard
                         layout={{
                             default: ["q w e r t y u i o p", "a s d f g h j k l {bksp}", "{shift} z x c v b n m done", "{space}"]
