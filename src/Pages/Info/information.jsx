@@ -30,6 +30,22 @@ function InfoPage() {
         if (localStorage.getItem("formData")) {
             localStorage.removeItem("formData");
         }
+        if(localStorage.getItem("osmf")){
+            localStorage.removeItem("osmf");
+        }
+        else if(localStorage.getItem("gingivitis")){
+            localStorage.removeItem("gingivitis");
+        }
+        else if(localStorage.getItem("pheno")){
+            localStorage.removeItem("pheno");
+        }
+        else if(localStorage.removeItem("calculus")){
+            localStorage.removeItem("calculus");
+        }
+        else if(localStorage.getItem("caries")){
+            localStorage.removeItem("caries");
+        }
+        
         const formData = {
             name: name,
             age: age,
