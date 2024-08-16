@@ -71,11 +71,27 @@ function InfoPage() {
 
     const onKeyPress = (button) => {
         console.log("Button Pressed", button);
-        if (button === "{shift}") handleShift();
-        else if (isNameVisible) setName(name + button);
-        else if (isNumVisible) setAge(age + button);
-        else if (isVillageVisible) setVillage(village + button);
-    };
+        
+        if (button === "{shift}") {
+            handleShift();
+        } else if (button === "{bksp}") {
+            if (isNameVisible) {
+                setName(name.slice(0, -1));
+            } else if (isNumVisible) {
+                setAge(age.slice(0, -1));
+            } else if (isVillageVisible) {
+                setVillage(village.slice(0, -1));
+            }
+        } else {
+            if (isNameVisible) {
+                setName(name + button);
+            } else if (isNumVisible) {
+                setAge(age + button);
+            } else if (isVillageVisible) {
+                setVillage(village + button);
+            }
+        }
+    };    
 
     return (
         <div className="text-black">
