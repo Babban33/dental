@@ -1,9 +1,7 @@
 import React, { useState, useEffect} from 'react';
+import NavButton from '../../components/btn';
 
-function Results({disease3, disease4, disease5}){
-    const [phenotype, setDisease3] = useState(null);
-    const [calculus, setDisease4] = useState(null);
-    const [caries, setDisease5] = useState(null);
+function Results(){
     const [osmfPairs, setOsmfPairs] = useState([]);
     const [gingiPairs, setGingiPairs] = useState([]);
     const [phenoPairs, setPhenoPairs] = useState([]);
@@ -45,12 +43,6 @@ function Results({disease3, disease4, disease5}){
         const data = JSON.parse(localStorage.getItem('formData')) || {};
         setPatientInfo(data);
     }, []);
-
-    useEffect(() => {
-        setDisease3(phenotype);
-        setDisease4(calculus);
-        setDisease5(caries);
-    }, [disease3, disease4, disease5]);
 
     return(
         <div className='space-y-6 text-gray-800 p-4 md:p-8'>
@@ -151,7 +143,7 @@ function Results({disease3, disease4, disease5}){
                 </div>
 
                 <div className='p-4 my-6'>
-                    <h2 className='font-serif text-2xl font-semibold text-white leading-tight mb-4 bg-indigo-800 p-2'>Gingivitis</h2>
+                    <h2 className='font-serif text-2xl font-semibold text-white leading-tight mb-4 bg-indigo-800 p-2'>Calculus</h2>
                     {calculusPairs.length > 0 ? (
                         <>
                             <div className='flex flex-row justify-between mb-4'>
@@ -180,7 +172,7 @@ function Results({disease3, disease4, disease5}){
                 </div>
 
                 <div className='p-4 mt-6'>
-                    <h2 className='font-serif text-2xl font-semibold text-white leading-tight mb-4 bg-indigo-800 p-2'>Gingival Phenotype</h2>
+                    <h2 className='font-serif text-2xl font-semibold text-white leading-tight mb-4 bg-indigo-800 p-2'>Caries</h2>
                     {cariesPairs.length > 0 ? (
                         <>
                             <div className='flex flex-row justify-between mb-4'>
@@ -208,13 +200,14 @@ function Results({disease3, disease4, disease5}){
                     )}
                 </div>
 
-                <div className='p-4'>
+                {/* <div className='p-4'>
                     <h2 className='font-serif text-2xl font-semibold text-indigo-600 leading-tight mb-4'>Other Screenings</h2>
                     <p className='mb-2'><strong>Phenotype Screening:</strong> {phenotype || 'Screening not done'}</p>
                     <p className='mb-2'><strong>Calculus Screening:</strong> {calculus || 'Screening not done'}</p>
                     <p className='mb-2'><strong>Caries Screening:</strong> {caries || 'Screening not done'}</p>
-                </div>
+                </div> */}
             </div>
+            <NavButton text={'Home'} destination={'/info'}/>
         </div>
     )
 }
