@@ -4,7 +4,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import content from "../data.json";
 
-function Phenotype({onPredictionChange}){
+function Phenotype(){
     const [cameras, setCameras] = useState([]);
     const [selectedCamera, setSelectedCamera] = useState("");
     const [streaming, setStreaming] = useState(false);
@@ -19,11 +19,6 @@ function Phenotype({onPredictionChange}){
     const [crop, setCrop] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [language, setLanguage] = useState('en');
-
-    useEffect(() => {
-        console.log("Prediction state:", predictedClass);
-        onPredictionChange(predictedClass)
-    }, [predictedClass, onPredictionChange]);
 
     useEffect(() => {
         const getAvailableCameras = async () => {

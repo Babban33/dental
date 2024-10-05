@@ -4,7 +4,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import content from "../data.json";
 
-function Caries({ onPredictionChange}){
+function Caries(){
     const [cameras, setCameras] = useState([]);
     const [selectedCamera, setSelectedCamera] = useState("");
     const [streaming, setStreaming] = useState(false);
@@ -19,11 +19,6 @@ function Caries({ onPredictionChange}){
     const [crop, setCrop] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [language, setLanguage] = useState('en');
-
-    useEffect(() => {
-        console.log("Prediction state:", predictedClass);
-        onPredictionChange(predictedClass)
-    }, [predictedClass, onPredictionChange]);
 
     useEffect(() => {
         const getAvailableCameras = async () => {
@@ -295,7 +290,7 @@ function Caries({ onPredictionChange}){
 
             <div className="justify-center gap-4 mt-4 grid grid-cols-2">
                 <NavButton text={content["Nav"][language].btn1} destination="/selection"/>
-                <NavButton text={content["Nav"][language].btn2} destination="/results" />
+                <NavButton text={content["Nav"][language].final} destination="/results" />
             </div>
         </div>
     )
