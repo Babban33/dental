@@ -130,8 +130,8 @@ function InfoPage() {
                 {isNameVisible && !isMobile && (
                     <Keyboard
                         layout={{
-                            default: ["q w e r t y u i o p", "a s d f g h j k l {bksp}", "{shift} z x c v b n m next", "{space}"],
-                            shift: ["Q W E R T Y U I O P", "A S D F G H J K L {bksp}", "{shift} Z X C V B N M Next", "{space}"],
+                            default: ["q w e r t y u i o p", "a s d f g h j k l {bksp}", "{shift} z x c v b n m", "{space}"],
+                            shift: ["Q W E R T Y U I O P", "A S D F G H J K L {bksp}", "{shift} Z X C V B N M", "{space}"],
                         }}
                         theme="hg-theme-default hg-layout-numeric numeric-theme"
                         layoutName={layoutName}
@@ -155,7 +155,7 @@ function InfoPage() {
                 {isNumVisible && !isMobile && (
                     <Keyboard
                         layout={{
-                            default: ["1 2 3", "4 5 6", "7 8 9", "0 {bksp} {enter}"]
+                            default: ["1 2 3", "4 5 6", "7 8 9", "0 {bksp}"]
                         }}
                         theme="hg-theme-default hg-layout-numeric numeric-theme"
                         onKeyPress={onKeyPress}
@@ -194,7 +194,7 @@ function InfoPage() {
                 {isVillageVisible && !isMobile && (
                     <Keyboard
                         layout={{
-                            default: ["q w e r t y u i o p", "a s d f g h j k l {bksp}", "{shift} z x c v b n m done", "{space}"]
+                            default: ["q w e r t y u i o p", "a s d f g h j k l {bksp}", "{shift} z x c v b n m", "{space}"]
                         }}
                         theme="hg-theme-default hg-layout-numeric numeric-theme"
                         onKeyPress={onKeyPress}
