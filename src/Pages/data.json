@@ -186,15 +186,18 @@
     "Nav":{
         "en":{
             "btn1": "Previous",
-            "btn2": "Next"
+            "btn2": "Next",
+            "final": "Results"
         },
         "hi":{
             "btn1": "पिचला",
-            "btn2": "अगला"
+            "btn2": "अगला",
+            "final": "परिणाम"
         },
         "mar":{
             "btn1": "मागील",
-            "btn2": "पुढे"
+            "btn2": "पुढे",
+            "final": "परिणाम"
         }
     }
 }
